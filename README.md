@@ -1,63 +1,76 @@
-# AI股票分析助手
+# AI Stock Intelligent Analysis Assistant
 
-这是一个基于大语言模型的股票分析助手，可以分析股票的技术面、基本面和舆情，并提供投资建议。
++ [中文版说明文档](README_zh.md)
 
-## 功能特点
+ This project is an intelligent A-share stock analysis tool based on large language models and multi-dimensional data analysis. It integrates technical, fundamental, and sentiment analysis, and automatically generates professional investment advice. It is suitable for quantitative investment, individual investors, and financial researchers.
 
-- 使用baostock获取股票数据
-- 计算多种技术指标（MA、MACD、RSI、布林带、KDJ等）
-- 分析基本面数据（财务指标、估值指标等）
-- 分析舆情数据（新闻情感分析）
-- 使用DeepSeek模型进行综合分析
-- 提供详细的投资建议
+## Key Features
 
-## 安装依赖
+- **Stock Data Fetching**: Automatically retrieves A-share historical market, financial, growth, and industry data.
+- **Technical Indicator Analysis**: Supports batch calculation and signal detection for mainstream indicators such as MA, MACD, RSI, Bollinger Bands, KDJ, CCI, DMI, OBV, VR, Williams %R, etc.
+- **Fundamental Analysis**: Automatically extracts and analyzes core financial metrics like ROE, profit margin, main business income, and growth, combined with industry attributes to generate summaries.
+- **LLM-powered Q&A**: Integrates ZhipuAI (GLM-4) model, supports natural language queries, automatically invokes multiple analysis tools, and generates structured analysis reports and investment advice.
+- **One-click Analysis**: Simply input the stock code and analysis requirement to get a detailed multi-dimensional analysis result.
 
-```bash
-pip install -r requirements.txt
-```
+## Installation
 
-## 配置
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd Stock
+   ```
 
-1. 复制`.env.example`文件为`.env`
-2. 在`.env`文件中填入你的HuggingFace API Token
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   > Note: You need to install [TA-Lib](https://ta-lib.org/) in advance. For Windows users, refer to [TA-Lib Installation Guide](https://blog.csdn.net/weixin_44791964/article/details/131701857).
 
-## 使用方法
+3. **Environment Variables**
+   - Copy `.env.example` to `.env` and fill in your `ZHIPUAI_API_KEY` (ZhipuAI) and other related keys.
 
-1. 运行主程序：
+## Quick Start
+
+### One-click analysis via command line
+
+Run the following command:
 ```bash
 python main.py
 ```
+The program will prompt you to input a stock code (for example, "sh.600000") and then proceed with the analysis.
 
-2. 在代码中自定义分析：
+### Example: Use in your own code
+
+You can also import the StockAnalysisAgent in your own code and call it as follows (note that in the interactive mode, the stock code is prompted via input):
 ```python
 from main import StockAnalysisAgent
 
-agent = StockAnalysisAgent()
-result = agent.analyze_stock("sh.600519", "请分析该股票的投资价值")
+agent = StockAnalysisAgent(start_date="2024-05-01", end_date="2024-06-01")
+# In interactive mode, the stock code is prompted via input.
+# For example, if you run main.py, you will be prompted to enter a stock code (e.g., "sh.600000").
+query = "请分析该股票的投资价值，并给出具体的投资建议"
+result = agent.analyze_stock(code, query)
 print(result)
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 .
-├── main.py                 # 主程序
-├── requirements.txt        # 依赖包
-├── .env                   # 环境变量
-└── stock_tools/           # 工具模块
-    ├── data_fetcher.py    # 数据获取
-    ├── technical_analyzer.py  # 技术分析
-    ├── fundamental_analyzer.py  # 基本面分析
-    └── sentiment_analyzer.py  # 舆情分析
+├── main.py                   # Main program: integrates multi-dimensional analysis and LLM Q&A
+├── requirements.txt          # Dependency list
+├── .env.example              # Environment variable template
+├── stock_tools/              # Analysis tool modules
+│   ├── data_fetcher.py           # Stock data fetching
+│   ├── technical_analyzer.py     # Technical indicator analysis
+│   ├── fundamental_analyzer.py   # Fundamental analysis
+│   └── sentiment_analyzer.py     # Sentiment analysis (Implementing)
+└── README.md                 # Project documentation
 ```
 
-## 注意事项
+## Notes
 
-1. 需要安装TA-Lib库，安装方法请参考[TA-Lib官网](http://ta-lib.org/)
-2. 需要注册HuggingFace账号并获取API Token
-3. 股票代码格式为：sh.600519（上海）或sz.000001（深圳）
+- You need to register a ZhipuAI account and obtain an API Token.
+- Stock code format: `sh.600519` (Shanghai) or `sz.000063` (Shenzhen).
 
-## 许可证
-
-MIT 
+- This project is for academic and technical exchange only. Investment involves risks. Please make decisions cautiously.

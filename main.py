@@ -118,8 +118,9 @@ def main():
 
     end_date = datetime.now().strftime("%Y-%m-%d")
     agent = StockAnalysisAgent(start_date, end_date)
+    code = input("请输入股票代码（如：sh.600000）：")
     
-    code = "sz.000063" 
+    # code = "sz.000063" 
     query = "请分析该股票的投资价值，并给出具体的投资建议"
     
     # 执行分析
