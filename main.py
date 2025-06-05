@@ -75,7 +75,8 @@ class StockAnalysisAgent:
         financial_data = self.data_fetcher.get_financial_data(code)
         growth_data = self.data_fetcher.get_growth_data(code)
         industry_data = self.data_fetcher.get_stock_industry_data(code)
-        analyzer = FundamentalAnalyzer(financial_data, growth_data, industry_data)
+        adjust_factors = self.data_fetcher.get_adjust_factors(code)
+        analyzer = FundamentalAnalyzer(financial_data, growth_data, industry_data, adjust_factors)
         return analyzer.get_financial_summary()
     
     def analyze_sentiment(self, code):
@@ -114,11 +115,12 @@ def main():
     # 初始化分析Agent
     # 忽略警告信息
     warnings.filterwarnings('ignore')
+    code = input("请输入股票代码（如：sh.600000）：")
     start_date = "2024-5-1"
 
     end_date = datetime.now().strftime("%Y-%m-%d")
     agent = StockAnalysisAgent(start_date, end_date)
-    code = input("请输入股票代码（如：sh.600000）：")
+    
     
     # code = "sz.000063" 
     query = "请分析该股票的投资价值，并给出具体的投资建议"

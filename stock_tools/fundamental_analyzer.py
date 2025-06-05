@@ -4,7 +4,7 @@ from datetime import datetime
 from pprint import pp
 
 class FundamentalAnalyzer:
-    def __init__(self, financial_data, growth_data, industry_data):
+    def __init__(self, financial_data, growth_data, industry_data, adjust_factors):
         """
         :param financial_data: DataFrame，包含财务数据
         :param growth_data: DataFrame，包含成长数据
@@ -12,7 +12,7 @@ class FundamentalAnalyzer:
         self.financial_data = financial_data
         self.growth_data = growth_data
         self.industry_data = industry_data
-    
+        self.adjust_factors = adjust_factors
     def calculate_roe(self, netProfit, equity):
         """
         计算净资产收益率
@@ -66,6 +66,8 @@ class FundamentalAnalyzer:
         analysis['YOYPNI'] = float(self.growth_data['YOYPNI'].iloc[-1])
 
         analysis['industry'] = self.industry_data['industry'].iloc[-1]
+        
+        analysis['dividCashStock'] = self.adjust_factors['dividCashStock'].iloc[-1]
 
         return analysis
     
@@ -108,7 +110,9 @@ class FundamentalAnalyzer:
             
         if 'YOYPNI' in analysis:
             summary.append(f"归属母公司股东净利润同比增长率: {analysis['YOYPNI']:.3f}%。")
-            
         
+        if 'dividCashStock' in analysis:
+            summary.append(f"最近分红（元）: {analysis['dividCashStock']}，")
+            
         
         return "".join(summary) 
